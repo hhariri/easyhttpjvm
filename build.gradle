@@ -1,0 +1,33 @@
+buildscript {
+    ext.kotlin_version = '0.1-SNAPSHOT'
+    repositories {
+        mavenCentral()
+        maven {
+            url 'http://oss.sonatype.org/content/repositories/snapshots'
+        }
+        maven {
+            url 'http://oss.sonatype.org/content/repositories/snapshots'
+        }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$ext.kotlin_version"
+        classpath "io.netty:netty-all:4.0.15.Final"
+    }
+}
+
+apply plugin: 'kotlin'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'http://oss.sonatype.org/content/repositories/snapshots'
+    }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$ext.kotlin_version"
+    compile "io.netty:netty-all:4.0.15.Final"
+}
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+}
