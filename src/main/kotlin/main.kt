@@ -30,13 +30,7 @@ fun main(args: Array<String>) {
 
     val httpClient = HttpClient()
 
-    httpClient.get("www.w3schools.com", ::handler)
-
-    httpClient.get("www.google.com", { response -> Unit
-        println(response)
-    })
-}
-
-fun handler(message: String): Unit {
-    println("Response is $message")
+    httpClient.get("http://elpais.com") {
+        println(content)
+    }
 }

@@ -10,30 +10,23 @@ import io.netty.handler.codec.http.LastHttpContent
 import io.netty.handler.codec.http.HttpResponse
 
 
-class HttpClientHandler(private val callback: (String) -> Unit): SimpleChannelInboundHandler<HttpObject>() {
+class HttpClientHandler(private val callback: Response.() -> Unit): SimpleChannelInboundHandler<HttpObject>() {
+
+    val requestResponse = Response()
+
     override fun channelRead0(ctx: ChannelHandlerContext?, msg: HttpObject?) {
         if (msg is HttpResponse) {
             val response = (msg as HttpResponse)
-
-            println("STATUS: " + response.getStatus())
-            println("VERSION: " + response.getProtocolVersion())
-            println()
-
-
-            if (HttpHeaders.isTransferEncodingChunked(response)) {
-                println("CHUNKED CONTENT {")
-            } else {
-                println("CONTENT {")
-            }
+            requestResponse.statusCode = response.getStatus().toString()
         }
         if (msg is HttpContent) {
             val content = (msg as HttpContent)
-
             val message = content.content()!!.toString(CharsetUtil.UTF_8)!!
+            requestResponse.content += message
             if (content is LastHttpContent) {
-                println("} END OF CONTENT")
+                val handlerExtension : Response.() -> Unit = callback
+                requestResponse.handlerExtension()
             }
-            callback(message)
         }
     }
 

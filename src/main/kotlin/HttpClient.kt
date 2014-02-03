@@ -25,46 +25,56 @@ import io.netty.handler.codec.http.HttpVersion
 import io.netty.handler.codec.http.DefaultFullHttpRequest
 import java.net.URI
 import java.net.URL
+import io.netty.handler.codec.http.HttpRequest
 
 public class HttpClient() {
 
 
-    fun get(url: String, callback: (String) -> Unit) {
-        val uri = URI(url)
-        val eventLoopGroup = NioEventLoopGroup()
-        val host = (if (uri.getHost() == null)
-            "localhost"
-        else
-            uri.getHost())
 
-        try {
-            val bootstrap = Bootstrap()
-            bootstrap.group(eventLoopGroup)
-            ?.channel(javaClass<NioSocketChannel>())
-            ?.handler(HttpClientInitializer(false, callback))
-            // Make the connection attempt.
-            val ch = bootstrap.connect(url, 80)!!.sync()!!.channel()!!
 
-            // Prepare the HTTP request.
-            val request = DefaultFullHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, uri.getRawPath())
-            request.headers()!!.set(HttpHeaders.Names.HOST, host)
-            request.headers()!!.set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.CLOSE)
-            request.headers()!!.set(HttpHeaders.Names.ACCEPT_ENCODING, HttpHeaders.Values.GZIP)
-
-            // Set some example cookies.
-            request.headers()!!.set(HttpHeaders.Names.COOKIE, ClientCookieEncoder.encode(DefaultCookie("my-cookie", "foo"), DefaultCookie("another-cookie", "bar")))
-
-            // Send the HTTP request.
-            ch.writeAndFlush(request)
-
-            // Wait for the server to close the connection.
-            ch.closeFuture()!!.sync()
-        } finally {
-            // Shut down executor threads to exit.
-            eventLoopGroup.shutdownGracefully();
-        }
-
+    private fun setupBootStrap(eventLoopGroup: NioEventLoopGroup, callback: Response.() -> Unit): Bootstrap {
+        val bootStrap = Bootstrap()
+        bootStrap.group(eventLoopGroup)
+                ?.channel(javaClass<NioSocketChannel>())
+                ?.handler(HttpClientInitializer(false, callback))
+        return bootStrap
     }
 
+    private fun setupHeaders(url: String): HttpRequest {
+        val uri = URI(url)
+        val host = uri.getHost() ?: "localhost"
+
+        // Prepare the HTTP request.
+        val request = DefaultFullHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, uri.getRawPath())
+        request.headers()!!.set(HttpHeaders.Names.HOST, host)
+   //     request.headers()!!.set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.CLOSE)
+   //     request.headers()!!.set(HttpHeaders.Names.ACCEPT_ENCODING, HttpHeaders.Values.GZIP)
+
+        // Set some example cookies.
+     //   request.headers()!!.set(HttpHeaders.Names.COOKIE, ClientCookieEncoder.encode(DefaultCookie("my-cookie", "foo"), DefaultCookie("another-cookie", "bar")))
+
+        return request
+    }
+
+    fun get(url: String, callback: Response.() -> Unit) {
+        val eventLoopGroup = NioEventLoopGroup()
+        try {
+            val bootstrap = setupBootStrap(eventLoopGroup, callback)
+            val request = setupHeaders(url)
+            val uri = URI(url)
+            val host = uri.getHost() ?: "localhost"
+            var port = uri.getPort()
+            if (port == -1) {
+                port = 80;
+            }
+
+            val ch = bootstrap.connect(host, port)!!.sync()!!.channel()!!
+
+            ch.writeAndFlush(request)
+            ch.closeFuture()?.sync()
+        } finally {
+            eventLoopGroup.shutdownGracefully()
+        }
+    }
 }
 

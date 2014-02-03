@@ -8,7 +8,7 @@ import io.netty.handler.logging.LogLevel
 import io.netty.handler.codec.http.HttpClientCodec
 import io.netty.handler.codec.http.HttpContentDecompressor
 
-public class HttpClientInitializer(private val useSSL: Boolean, private val callback: (String) -> Unit): ChannelInitializer<SocketChannel>() {
+public class HttpClientInitializer(private val useSSL: Boolean, private val callback: Response.() -> Unit): ChannelInitializer<SocketChannel>() {
     override fun initChannel(ch: SocketChannel?) {
         val p = ch?.pipeline()!!
 
