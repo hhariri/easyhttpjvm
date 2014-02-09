@@ -8,11 +8,13 @@ import io.netty.handler.logging.LogLevel
 import io.netty.handler.codec.http.HttpClientCodec
 import io.netty.handler.codec.http.HttpContentDecompressor
 
-public class HttpClientInitializer(private val useSSL: Boolean, private val callback: Response.() -> Unit): ChannelInitializer<SocketChannel>() {
+public class HttpClientInitializer(private val enableLogging: Boolean, private val useSSL: Boolean, private val callback: Response.() -> Unit, private val deserializers: List<ContentDeserializer>): ChannelInitializer<SocketChannel>() {
     override fun initChannel(ch: SocketChannel?) {
         val p = ch?.pipeline()!!
 
-        p.addLast("log", LoggingHandler(LogLevel.INFO))
+        if (enableLogging) {
+            p.addLast("log", LoggingHandler(LogLevel.INFO))
+        }
         // Enable HTTPS if necessary.
         if (useSSL) {
             //      val engine = SecureChatSslContextFactory.getClientContext().createSSLEngine()
@@ -29,6 +31,6 @@ public class HttpClientInitializer(private val useSSL: Boolean, private val call
         // Uncomment the following line if you don't want to handle HttpChunks.
         //p.addLast("aggregator", new HttpObjectAggregator(1048576));
 
-        p.addLast("handler", HttpClientHandler(callback))
+        p.addLast("handler", HttpClientHandler(callback, deserializers))
     }
 }

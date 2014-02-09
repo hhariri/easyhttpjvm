@@ -12,6 +12,11 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$ext.kotlin_version"
         classpath "io.netty:netty-all:4.0.15.Final"
+        classpath "com.netflix.rxjava:rxjava-core:0.16.1"
+        classpath "com.netflix.rxjava:rxjava-kotlin:0.16.1"
+        classpath "joda-time:joda-time:2.3"
+        classpath "com.google.code.gson:gson:2.2.4"
+        classpath "junit:junit:4.11"
     }
 }
 
@@ -27,6 +32,12 @@ repositories {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$ext.kotlin_version"
     compile "io.netty:netty-all:4.0.15.Final"
+    compile "com.netflix.rxjava:rxjava-core:0.16.1"
+    compile "com.netflix.rxjava:rxjava-kotlin:0.16.1"
+    compile "joda-time:joda-time:2.3"
+    compile "com.google.code.gson:gson:2.2.4"
+    testCompile "junit:junit:4.11"
+
 }
 sourceSets {
     main.java.srcDirs += 'src/main/kotlin'

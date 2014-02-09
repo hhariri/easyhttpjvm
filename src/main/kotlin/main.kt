@@ -28,9 +28,10 @@ import java.net.URI
 
 fun main(args: Array<String>) {
 
-    val httpClient = HttpClient()
+    val easyHttp = EasyHttp()
 
-    httpClient.get("http://elpais.com") {
+    easyHttp.get("http://httpbin.org/", RequestHeaders(accept = "*/*")) {
+        println(contentType)
         println(content)
     }
 }
