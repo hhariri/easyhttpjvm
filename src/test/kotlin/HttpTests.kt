@@ -9,6 +9,9 @@ import kotlin.test.assertNull
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.DateTime
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
+import org.easyHttp.Headers
+import org.easyHttp.ContentType
 
 data class CustomerSimpleClass(val name: String, val email: String)
 
@@ -59,6 +62,52 @@ class HttpTests() {
 
         })
 
+    }
+    spec fun on_post_with_class_and_form_encoding_it_should_post_data_as_part_of_contents() {
+
+        val http = EasyHttp()
+
+        http.post(
+                url = "http://httpbin.org/post",
+                contents = CustomerSimpleClass(name = "Joe", email = "joe@gmail.com"),
+                headers = Headers(contentType = "application/x-www-form-urlencoded"),
+
+                callback = {
+                    assertEquals(StatusCode.OK, statusCode)
+                    assertEquals(502, contentLength)
+                }
+        )
+    }
+
+    spec fun on_post_with_key_value_and_form_encoding_it_should_post_data_as_part_of_contents() {
+        val http = EasyHttp()
+
+        http.post(
+            url = "http://httpbin.org/post",
+            contents = hashMapOf(Pair("name", "Joe"), Pair("email", "joe@gmail.com")),
+                headers = Headers(contentType = "application/x-www-form-urlencoded"),
+                callback = {
+                assertEquals(StatusCode.OK, statusCode)
+                assertEquals(502, contentLength)
+              }
+
+        )
+    }
+
+    spec fun on_post_with_class_and_json_encoding_it_should_post_data_as_part_of_contents() {
+        val http = EasyHttp()
+
+        http.post(
+                url = "http://httpbin.org/post",
+                contents = CustomerSimpleClass(name = "Joe", email = "joe@gmail.com"),
+                headers = Headers(contentType = "application/json"),
+
+                callback = {
+                    assertEquals(StatusCode.OK, statusCode)
+                    println(content)
+                    assertEquals(502, contentLength)
+                }
+        )
     }
 
 

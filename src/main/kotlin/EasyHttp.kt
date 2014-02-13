@@ -26,9 +26,11 @@ import io.netty.handler.codec.http.DefaultFullHttpRequest
 import java.net.URI
 import java.net.URL
 import io.netty.handler.codec.http.HttpRequest
+import jet.Map
 
 public class EasyHttp(private val enableLogging: Boolean = false,
-                      private val deserializers: List<ContentDeserializer> = listOf(JsonDeserializer())) {
+                      val deserializers: List<ContentDeserializer> = listOf(JsonDeserializer()),
+                      val serializers: List<ContentSerializer> = listOf(ApplicationWwwFormUrlEncodedSerializer())) {
 
 
 
@@ -41,7 +43,7 @@ public class EasyHttp(private val enableLogging: Boolean = false,
         return bootStrap
     }
 
-    fun executeRequest(url: String, headers: RequestHeaders, method: HttpMethod, callback: Response.() -> Unit, contents: Any? = null) {
+    fun executeRequest(url: String, headers: Headers, method: HttpMethod, callback: Response.() -> Unit, contents: Any? = null) {
         val eventLoopGroup = NioEventLoopGroup()
         try {
             val bootstrap = setupBootStrap(eventLoopGroup, callback)
@@ -60,10 +62,25 @@ public class EasyHttp(private val enableLogging: Boolean = false,
             requestHeaders.set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.CLOSE)
             requestHeaders.set(HttpHeaders.Names.ACCEPT_ENCODING, HttpHeaders.Values.GZIP)
             requestHeaders.set(HttpHeaders.Names.ACCEPT_CHARSET, headers.acceptCharSet)
-            //    requestHeaders.set(HttpHeaders.Names.CONTENT_TYPE, headers.contentType)
+            if (method == HttpMethod.POST || method == HttpMethod.PATCH) {
+                requestHeaders.set(HttpHeaders.Names.CONTENT_TYPE, headers.contentType)
+                val serializer = serializers.find { it.canSerialize(headers.contentType)}
+                if (serializer != null) {
+                    if (contents != null) {
+                        // you know, we're not serializing. We're seriaizing and streaming. Rx would be a perfect
+                        // example here for piping.
+                    serializer.serialize(request, contents)
+
+                    }
+                } else
+                    throw SerializationException("Cannot find serializer for content type")
+
+            }
             requestHeaders.set(HttpHeaders.Names.FROM, headers.from)
+
             //   request.headers()!!.set(HttpHeaders.Names.COOKIE, ClientCookieEncoder.encode(DefaultCookie("my-cookie", "foo"), DefaultCookie("another-cookie", "bar")))
             val ch = bootstrap.connect(host, port)!!.sync()!!.channel()!!
+            ch.write()
             ch.writeAndFlush(request)
             ch.closeFuture()?.sync()
         } finally {
@@ -71,15 +88,15 @@ public class EasyHttp(private val enableLogging: Boolean = false,
         }
     }
 
-    fun get(url: String, headers: RequestHeaders = RequestHeaders(), callback: Response.() -> Unit) {
+    fun get(url: String, headers: Headers = Headers(), callback: Response.() -> Unit) {
         executeRequest(url, headers, HttpMethod.GET, callback)
     }
 
-    fun post(url: String, headers: RequestHeaders = RequestHeaders(), contents: Any? = null, callback: Response.() -> Unit) {
+    fun post(url: String, headers: Headers = Headers(), contents: Any? = null, callback: Response.() -> Unit) {
         executeRequest(url, headers, HttpMethod.POST, callback, contents)
     }
 
-    fun head(url: String, headers: RequestHeaders = RequestHeaders(), callback: Response.() -> Unit) {
+    fun head(url: String, headers: Headers = Headers(), callback: Response.() -> Unit) {
         executeRequest(url, headers, HttpMethod.HEAD, callback)
     }
 }

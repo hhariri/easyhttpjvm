@@ -30,7 +30,7 @@ fun main(args: Array<String>) {
 
     val easyHttp = EasyHttp()
 
-    easyHttp.get("http://httpbin.org/", RequestHeaders(accept = "*/*")) {
+    easyHttp.get("http://httpbin.org/", Headers(accept = "*/*")) {
         println(contentType)
         println(content)
     }
