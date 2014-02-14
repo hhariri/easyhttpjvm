@@ -6,7 +6,7 @@ import org.joda.time.DateTime
 
 
 public class Response(
-        private val deserializers: List<ContentDeserializer>,
+        private val deserializers: List<ContentDecoder>,
         val age: String? = null,
         val accessControlAllowOrigin: String? = null,
         val accept: SortedMap<String,Int>? = null,
@@ -33,9 +33,9 @@ public class Response(
 
 
     fun content<T>(objectType: Class<T>): T {
-        val deserializer = deserializers.find { it.canDeserialize(contentType.toString())}
+        val deserializer = deserializers.find { it.canDecode(contentType.toString())}
         if (deserializer != null) {
-            return (deserializer.deserialize<T>(content!!, objectType) as T)
+            return (deserializer.decode<T>(content!!, objectType) as T)
         }
         throw Exception("Cannot find correct deserializer for given content type")
     }

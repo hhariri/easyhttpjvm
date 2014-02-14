@@ -29,8 +29,9 @@ import io.netty.handler.codec.http.HttpRequest
 import jet.Map
 
 public class EasyHttp(private val enableLogging: Boolean = false,
-                      val deserializers: List<ContentDeserializer> = listOf(JsonDeserializer()),
-                      val serializers: List<ContentSerializer> = listOf(ApplicationWwwFormUrlEncodedSerializer())) {
+                      val streamers: List<Streamer> = listOf(FormStreamer(), BodyStreamer()),
+                      val decoders: List<ContentDecoder> = listOf(JsonDecoder()),
+                      val encoders: List<ContentEncoder> = listOf(ApplicationUrlFormEncoder(), JsonEncoder())) {
 
 
 
@@ -39,7 +40,7 @@ public class EasyHttp(private val enableLogging: Boolean = false,
         val bootStrap = Bootstrap()
         bootStrap.group(eventLoopGroup)
                 ?.channel(javaClass<NioSocketChannel>())
-                ?.handler(HttpClientInitializer(enableLogging = false, useSSL = false, callback = callback, deserializers = deserializers))
+                ?.handler(HttpClientInitializer(enableLogging = false, useSSL = false, callback = callback, deserializers = decoders))
         return bootStrap
     }
 
@@ -54,34 +55,37 @@ public class EasyHttp(private val enableLogging: Boolean = false,
                 port = 80;
             }
             val rawPath = URI(url).getRawPath()
+            var request: HttpRequest
 
-            val request = DefaultFullHttpRequest(HttpVersion.HTTP_1_1, method, rawPath)
+            if ((method == HttpMethod.POST || method == HttpMethod.PATCH) && contents != null) {
+                val encoder = encoders.find { it.canEncode(headers.contentType)}
+                if (encoder != null) {
+                    val encodedData = encoder.encode(contents)
+                    val streamer = streamers.find { it.canStream(headers.contentType)}
+                    if (streamer != null) {
+                        request = streamer.streamData(encodedData, method, rawPath!!)
+                    } else {
+                        throw StreamerException("Streamer not found")
+                    }
+                } else {
+                    throw EncoderException("Cannot find encoder for content type")
+                }
+            } else {
+                request = DefaultFullHttpRequest(HttpVersion.HTTP_1_1, method, rawPath)
+            }
+
             val requestHeaders = request.headers()!!
+            requestHeaders.set(HttpHeaders.Names.CONTENT_TYPE, headers.contentType)
             requestHeaders.set(HttpHeaders.Names.HOST, host)
             requestHeaders.set(HttpHeaders.Names.ACCEPT, headers.accept)
             requestHeaders.set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.CLOSE)
             requestHeaders.set(HttpHeaders.Names.ACCEPT_ENCODING, HttpHeaders.Values.GZIP)
             requestHeaders.set(HttpHeaders.Names.ACCEPT_CHARSET, headers.acceptCharSet)
-            if (method == HttpMethod.POST || method == HttpMethod.PATCH) {
-                requestHeaders.set(HttpHeaders.Names.CONTENT_TYPE, headers.contentType)
-                val serializer = serializers.find { it.canSerialize(headers.contentType)}
-                if (serializer != null) {
-                    if (contents != null) {
-                        // you know, we're not serializing. We're seriaizing and streaming. Rx would be a perfect
-                        // example here for piping.
-                    serializer.serialize(request, contents)
-
-                    }
-                } else
-                    throw SerializationException("Cannot find serializer for content type")
-
-            }
             requestHeaders.set(HttpHeaders.Names.FROM, headers.from)
-
             //   request.headers()!!.set(HttpHeaders.Names.COOKIE, ClientCookieEncoder.encode(DefaultCookie("my-cookie", "foo"), DefaultCookie("another-cookie", "bar")))
             val ch = bootstrap.connect(host, port)!!.sync()!!.channel()!!
-            ch.write()
             ch.writeAndFlush(request)
+
             ch.closeFuture()?.sync()
         } finally {
             eventLoopGroup.shutdownGracefully()

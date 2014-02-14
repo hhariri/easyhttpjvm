@@ -2,8 +2,8 @@ package org.easyHttp
 
 import java.util.HashMap
 
-abstract public class ContentDeserializer(vararg val mediaTypes: String) {
-    open fun canDeserialize(mediaType: String): Boolean {
+abstract public class ContentDecoder(vararg val mediaTypes: String) {
+    open fun canDecode(mediaType: String): Boolean {
         for (supportedMediaType in mediaTypes) {
             if (mediaType.matches(supportedMediaType)) {
                 return true
@@ -11,5 +11,5 @@ abstract public class ContentDeserializer(vararg val mediaTypes: String) {
         }
         return false
     }
-    abstract fun deserialize<T>(input: String, objectType: Class<T>): T
+    abstract fun decode<T>(input: String, objectType: Class<T>): T
 }

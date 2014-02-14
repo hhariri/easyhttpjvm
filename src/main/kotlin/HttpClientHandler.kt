@@ -15,7 +15,7 @@ import org.joda.time.format.DateTimeFormat
 import org.joda.time.DateTime
 
 
-class HttpClientHandler(private val callback: Response.() -> Unit, private val deserializers: List<ContentDeserializer>): SimpleChannelInboundHandler<HttpObject>() {
+class HttpClientHandler(private val callback: Response.() -> Unit, private val deserializers: List<ContentDecoder>): SimpleChannelInboundHandler<HttpObject>() {
 
     var contentValue = ""
     var age: String? = null

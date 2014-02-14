@@ -74,7 +74,7 @@ class HttpTests() {
 
                 callback = {
                     assertEquals(StatusCode.OK, statusCode)
-                    assertEquals(502, contentLength)
+                    assertEquals(503, contentLength)
                 }
         )
     }
@@ -88,7 +88,7 @@ class HttpTests() {
                 headers = Headers(contentType = "application/x-www-form-urlencoded"),
                 callback = {
                 assertEquals(StatusCode.OK, statusCode)
-                assertEquals(502, contentLength)
+                    assertEquals(503, contentLength)
               }
 
         )

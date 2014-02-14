@@ -1,11 +1,11 @@
 package org.easyHttp
 
-import jet.Map
 import io.netty.handler.codec.http.HttpRequest
+import io.netty.handler.codec.http.HttpMethod
 
 
-abstract public class ContentSerializer(vararg val mediaTypes: String) {
-    open fun canSerialize(mediaType: String): Boolean {
+abstract class Streamer(vararg val mediaTypes: String) {
+    open fun canStream(mediaType: String): Boolean {
         for (supportedMediaType in mediaTypes) {
             if (mediaType.matches(supportedMediaType)) {
                 return true
@@ -13,5 +13,6 @@ abstract public class ContentSerializer(vararg val mediaTypes: String) {
         }
         return false
     }
-    abstract fun serialize(request: HttpRequest, data: Any?): HttpRequest
+
+    abstract fun streamData(data: Any?, method: HttpMethod, rawPath: String): HttpRequest
 }
