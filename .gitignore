@@ -1,0 +1,11 @@
+out/
+lib/kotlin-runtime-sources.jar
+lib/kotlin-runtime.jar
+.idea/workspace.xml
+.idea/uiDesigner.xml
+~$*
+.DS_Store/
+storage/tests/db
+samples/blog/database
+build/
+.gradle
