@@ -31,14 +31,12 @@ data class CustomerSimpleClass(val name: String, val email: String)
 val http = EasyHttp()
 
 http.post(
-        http.post(
-                url = "http://httpbin.org/post",
-                contents = CustomerSimpleClass(name = "Joe", email = "joe@gmail.com"),
-                headers = Headers(contentType = "application/x-www-form-urlencoded"),
-                callback = {
-                    // do something with response here...
-       }
-)
+        url = "http://httpbin.org/post",
+        contents = CustomerSimpleClass(name = "Joe", email = "joe@gmail.com"),
+        headers = Headers(contentType = "application/x-www-form-urlencoded"),
+        callback = {
+            // do something with response here...
+         })
 ```
 
 ## Features
