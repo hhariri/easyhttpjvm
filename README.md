@@ -11,6 +11,9 @@ Create an instance of EasyHttp, invoke a verb with a url, some header info and a
 
 
 ```kotlin
+
+data class CustomerSimpleClass(val name: String, val email: String)
+
 val http = EasyHttp()
 
 http.get("http://echo.jsontest.com/name/joe/email/joe@gmail.com",
@@ -23,14 +26,17 @@ http.get("http://echo.jsontest.com/name/joe/email/joe@gmail.com",
 #### A POST
 
 ```kotlin
+data class CustomerSimpleClass(val name: String, val email: String)
+
 val http = EasyHttp()
 
 http.post(
-    url = "http://httpbin.org/post",
-    contents = hashMapOf(Pair("name", "Joe"), Pair("email", "joe@gmail.com")),
-        headers = Headers(contentType = "application/x-www-form-urlencoded"),
-        callback = {
-            // do something with response here...
+        http.post(
+                url = "http://httpbin.org/post",
+                contents = CustomerSimpleClass(name = "Joe", email = "joe@gmail.com"),
+                headers = Headers(contentType = "application/x-www-form-urlencoded"),
+                callback = {
+                    // do something with response here...
        }
 )
 ```
