@@ -10,7 +10,7 @@ Create an instance of EasyHttp, invoke a verb with a url, some header info and a
 #### A GET
 
 
-{% highlight kotlin %}
+```kotlin
 val http = EasyHttp()
 
 http.get("http://echo.jsontest.com/name/joe/email/joe@gmail.com",
@@ -18,10 +18,11 @@ http.get("http://echo.jsontest.com/name/joe/email/joe@gmail.com",
             val customer = content(javaClass<CustomerSimpleClass>())
         }
 )
-{% endhighlight %}
+```
 
 #### A POST
-{% highlight kotlin %}
+
+```kotlin
 val http = EasyHttp()
 
 http.post(
@@ -32,7 +33,7 @@ http.post(
             // do something with response here...
        }
 )
-{% endhighlight %}
+```
 
 ## Features
 
