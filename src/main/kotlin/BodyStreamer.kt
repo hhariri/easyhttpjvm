@@ -10,10 +10,9 @@ import io.netty.buffer.Unpooled
 import io.netty.util.CharsetUtil
 
 public class BodyStreamer : Streamer("application/json", "application/json;charset=\\w*\\W*\\w*") {
-    override fun streamData(data: Any?, method: HttpMethod, rawPath: String): HttpRequest {
-        val s = data.toString()
-        val buffer = Unpooled.copiedBuffer(s, CharsetUtil.UTF_8)
-        return DefaultFullHttpRequest(HttpVersion.HTTP_1_1, method, rawPath, buffer)
+    override fun streamData(data: Any?, method: HttpMethod, rawPath: String): StreamerResponse {
+        val buffer = Unpooled.copiedBuffer(data.toString(), CharsetUtil.UTF_8)
+        return StreamerResponse(DefaultFullHttpRequest(HttpVersion.HTTP_1_1, method, rawPath, buffer), data.toString().size)
     }
 
 }

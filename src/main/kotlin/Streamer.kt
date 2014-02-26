@@ -3,6 +3,7 @@ package org.easyHttp
 import io.netty.handler.codec.http.HttpRequest
 import io.netty.handler.codec.http.HttpMethod
 
+data class StreamerResponse(val request: HttpRequest, val contentLength: Int)
 
 abstract class Streamer(vararg val mediaTypes: String) {
     open fun canStream(mediaType: String): Boolean {
@@ -14,5 +15,5 @@ abstract class Streamer(vararg val mediaTypes: String) {
         return false
     }
 
-    abstract fun streamData(data: Any?, method: HttpMethod, rawPath: String): HttpRequest
+    abstract fun streamData(data: Any?, method: HttpMethod, rawPath: String): StreamerResponse
 }

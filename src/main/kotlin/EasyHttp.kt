@@ -27,6 +27,7 @@ import java.net.URI
 import java.net.URL
 import io.netty.handler.codec.http.HttpRequest
 import jet.Map
+import java.util.ArrayList
 
 public class EasyHttp(private val enableLogging: Boolean = false,
                       val streamers: List<Streamer> = listOf(FormStreamer(), BodyStreamer()),
@@ -44,6 +45,20 @@ public class EasyHttp(private val enableLogging: Boolean = false,
         return bootStrap
     }
 
+    private fun convertToNettyCookies(cookies: ArrayList<Cookie>): ArrayList<io.netty.handler.codec.http.Cookie> {
+
+        val nettyCookies = arrayListOf<io.netty.handler.codec.http.Cookie>()
+        cookies.forEach {
+            val nettyCookie = DefaultCookie(it.name, it.value)
+            nettyCookie.setMaxAge(it.maxAge)
+            nettyCookie.setDomain(it.domain)
+            nettyCookie.setPath(it.path)
+            nettyCookie.setSecure(it.isSecure)
+            nettyCookies.add(nettyCookie)
+        }
+        return nettyCookies
+    }
+
     fun executeRequest(url: String, headers: Headers, method: HttpMethod, callback: Response.() -> Unit, contents: Any? = null) {
         val eventLoopGroup = NioEventLoopGroup()
         try {
@@ -56,6 +71,7 @@ public class EasyHttp(private val enableLogging: Boolean = false,
             }
             val rawPath = URI(url).getRawPath()
             var request: HttpRequest
+            var contentLength = 0
 
             if ((method == HttpMethod.POST || method == HttpMethod.PATCH) && contents != null) {
                 val encoder = encoders.find { it.canEncode(headers.contentType)}
@@ -63,7 +79,9 @@ public class EasyHttp(private val enableLogging: Boolean = false,
                     val encodedData = encoder.encode(contents)
                     val streamer = streamers.find { it.canStream(headers.contentType)}
                     if (streamer != null) {
-                        request = streamer.streamData(encodedData, method, rawPath!!)
+                        val streamerResponse = streamer.streamData(encodedData, method, rawPath!!)
+                        contentLength = streamerResponse.contentLength
+                        request = streamerResponse.request
                     } else {
                         throw StreamerException("Streamer not found")
                     }
@@ -76,13 +94,18 @@ public class EasyHttp(private val enableLogging: Boolean = false,
 
             val requestHeaders = request.headers()!!
             requestHeaders.set(HttpHeaders.Names.CONTENT_TYPE, headers.contentType)
+            if (contentLength > 0) {
+                requestHeaders.set(HttpHeaders.Names.CONTENT_LENGTH, contentLength)
+            }
             requestHeaders.set(HttpHeaders.Names.HOST, host)
             requestHeaders.set(HttpHeaders.Names.ACCEPT, headers.accept)
             requestHeaders.set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.CLOSE)
             requestHeaders.set(HttpHeaders.Names.ACCEPT_ENCODING, HttpHeaders.Values.GZIP)
             requestHeaders.set(HttpHeaders.Names.ACCEPT_CHARSET, headers.acceptCharSet)
             requestHeaders.set(HttpHeaders.Names.FROM, headers.from)
-            //   request.headers()!!.set(HttpHeaders.Names.COOKIE, ClientCookieEncoder.encode(DefaultCookie("my-cookie", "foo"), DefaultCookie("another-cookie", "bar")))
+            requestHeaders.set(HttpHeaders.Names.ACCEPT_LANGUAGE, headers.acceptLanguage)
+            requestHeaders.set(HttpHeaders.Names.USER_AGENT, headers.userAgent)
+            requestHeaders.set(HttpHeaders.Names.COOKIE, ClientCookieEncoder.encode(convertToNettyCookies(headers.cookies)))
             val ch = bootstrap.connect(host, port)!!.sync()!!.channel()!!
             ch.writeAndFlush(request)
 
@@ -103,5 +126,24 @@ public class EasyHttp(private val enableLogging: Boolean = false,
     fun head(url: String, headers: Headers = Headers(), callback: Response.() -> Unit) {
         executeRequest(url, headers, HttpMethod.HEAD, callback)
     }
+
+    fun options(url: String, headers: Headers = Headers(), callback: Response.() -> Unit) {
+        executeRequest(url, headers, HttpMethod.OPTIONS, callback)
+    }
+
+    fun put(url: String, headers: Headers = Headers(), contents: Any? = null, callback: Response.() -> Unit) {
+        executeRequest(url, headers, HttpMethod.PUT, callback, contents)
+    }
+
+    fun delete(url: String, headers: Headers = Headers(), callback: Response.() -> Unit) {
+        executeRequest(url, headers, HttpMethod.DELETE, callback)
+    }
+
+    fun patch(url: String, headers: Headers = Headers(), callback: Response.() -> Unit) {
+        executeRequest(url, headers, HttpMethod.PATCH, callback)
+    }
+
+
+
 }
 
