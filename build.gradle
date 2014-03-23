@@ -25,11 +25,13 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven {
         url 'http://oss.sonatype.org/content/repositories/snapshots'
     }
 }
+
 
 publishing {
     publications {
@@ -80,6 +82,13 @@ sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
 }
 
+configure(install.repositories.mavenInstaller) {
+    pom.project {
+        version "${version}"
+        artifactId "easyHttp"
+        groupId "org.easyHttp"
+    }
+}
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.11'
