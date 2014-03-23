@@ -36,8 +36,8 @@ repositories {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId = "org.easyhttp"
-            artifactId = "easyhttp"
+            groupId = "org.easyHttp"
+            artifactId = "easyHttp"
             version = "${version}"
 
             from components.java
