@@ -66,7 +66,10 @@ class HttpClientHandler(private val callback: Response.() -> Unit, private val d
             contentEncoding = getHeader(msg.headers(), "Content-Encoding")
             contentType = ContentType.parse(getHeader(msg.headers(), "Content-Type") ?: "")
             server = getHeader(msg.headers(), "Server")
-            date = DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss zzz")!!.parseDateTime(getHeader(msg.headers(), "Date"))
+            val headerDate = getHeader(msg.headers(), "Date")
+            if (headerDate != null) {
+                date = DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss zzz")!!.parseDateTime(getHeader(msg.headers(), "Date"))
+            }
         }
         if (msg is HttpContent) {
             val content = (msg as HttpContent)

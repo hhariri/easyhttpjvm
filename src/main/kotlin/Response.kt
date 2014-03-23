@@ -33,7 +33,7 @@ public class Response(
 
 
     fun content<T>(objectType: Class<T>): T {
-        val deserializer = deserializers.find { it.canDecode(contentType.toString())}
+        val deserializer = deserializers.firstOrNull { it.canDecode(contentType.toString())}
         if (deserializer != null) {
             return (deserializer.decode<T>(content!!, objectType) as T)
         }

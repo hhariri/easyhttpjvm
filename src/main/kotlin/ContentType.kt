@@ -25,6 +25,7 @@ class ContentType(val contentType: String, val contentSubtype: String, val param
             val parts = value.split(";")
             val content = parts[0].split("/")
             if (content.size != 2)
+
                 throw BadContentTypeFormat(value)
             val parameters = parts.drop(1).map {
                 val pair = it.trim().split("=")
