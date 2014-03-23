@@ -34,8 +34,9 @@ public class EasyHttp(private val enableLogging: Boolean = false,
                       val decoders: List<ContentDecoder> = listOf(JsonDecoder()),
                       val encoders: List<ContentEncoder> = listOf(
                                                                     ApplicationUrlFormEncoder(),
-                                                                    JsonEncoder()),
+                                                                    JsonEncoder(),
                                                                     TextPlainEncoder())
+                        )
 {
 
 
