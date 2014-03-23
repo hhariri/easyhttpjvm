@@ -32,7 +32,11 @@ import java.util.ArrayList
 public class EasyHttp(private val enableLogging: Boolean = false,
                       val streamers: List<Streamer> = listOf(FormStreamer(), BodyStreamer()),
                       val decoders: List<ContentDecoder> = listOf(JsonDecoder()),
-                      val encoders: List<ContentEncoder> = listOf(ApplicationUrlFormEncoder(), JsonEncoder())) {
+                      val encoders: List<ContentEncoder> = listOf(
+                                                                    ApplicationUrlFormEncoder(),
+                                                                    JsonEncoder()),
+                                                                    TextPlainEncoder())
+{
 
 
 
