@@ -2,7 +2,7 @@ package org.easyHttp
 
 import io.netty.handler.codec.http.multipart.HttpPostRequestEncoder
 import io.netty.handler.codec.http.HttpRequest
-import jet.Map
+import kotlin.Map
 import java.beans.Introspector
 import java.util.ArrayList
 import java.lang.reflect.Method

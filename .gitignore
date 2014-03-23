@@ -9,3 +9,4 @@ storage/tests/db
 samples/blog/database
 build/
 .gradle
+gradle.properties

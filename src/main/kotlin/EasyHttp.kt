@@ -26,7 +26,7 @@ import io.netty.handler.codec.http.DefaultFullHttpRequest
 import java.net.URI
 import java.net.URL
 import io.netty.handler.codec.http.HttpRequest
-import jet.Map
+import kotlin.Map
 import java.util.ArrayList
 
 public class EasyHttp(private val enableLogging: Boolean = false,

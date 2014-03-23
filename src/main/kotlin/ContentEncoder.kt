@@ -1,6 +1,6 @@
 package org.easyHttp
 
-import jet.Map
+import kotlin.Map
 import io.netty.handler.codec.http.HttpRequest
 
 
