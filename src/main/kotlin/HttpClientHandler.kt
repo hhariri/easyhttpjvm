@@ -88,6 +88,7 @@ class HttpClientHandler(private val callback: Response.() -> Unit, private val d
                         accessControlAllowOrigin = accessControlAllowOrigin,
                         contentType = contentType,
                         contentLength = contentLength,
+                        location = location,
                         connection = connection,
                         date = date,
                         server = server
