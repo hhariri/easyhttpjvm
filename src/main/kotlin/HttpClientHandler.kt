@@ -65,6 +65,7 @@ class HttpClientHandler(private val callback: Response.() -> Unit, private val d
             contentLength = getHeader(msg.headers(), "Content-Length")?.toInt() ?: 0
             contentEncoding = getHeader(msg.headers(), "Content-Encoding")
             contentType = ContentType.parse(getHeader(msg.headers(), "Content-Type") ?: "")
+            location = getHeader(msg.headers(), "Location")
             server = getHeader(msg.headers(), "Server")
             val headerDate = getHeader(msg.headers(), "Date")
             if (headerDate != null) {
