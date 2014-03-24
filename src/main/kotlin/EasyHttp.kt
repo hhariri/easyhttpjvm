@@ -28,6 +28,8 @@ import java.net.URL
 import io.netty.handler.codec.http.HttpRequest
 import kotlin.Map
 import java.util.ArrayList
+import rx.Observable
+import rx.subjects.Subject
 
 public class EasyHttp(private val enableLogging: Boolean = false,
                       val streamers: List<Streamer> = listOf(FormStreamer(), BodyStreamer()),
@@ -123,6 +125,12 @@ public class EasyHttp(private val enableLogging: Boolean = false,
     fun get(url: String, headers: Headers = Headers(), callback: Response.() -> Unit) {
         executeRequest(url, headers, HttpMethod.GET, callback)
     }
+
+/*
+    fun get(url: String, headers: Headers = Headers()): Observable<Response> {
+        val subject = Subject()
+    }
+*/
 
     fun post(url: String, headers: Headers = Headers(), contents: Any? = null, callback: Response.() -> Unit) {
         executeRequest(url, headers, HttpMethod.POST, callback, contents)

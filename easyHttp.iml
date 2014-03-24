@@ -23,6 +23,7 @@
     <orderEntry type="library" exported="" name="Gradle: gson-2.2.4" level="project" />
     <orderEntry type="library" exported="" name="Gradle: kotlin-stdlib-0.7.270" level="project" />
     <orderEntry type="library" exported="" name="Gradle: kotlin-runtime-0.7.270" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: rxjava-core-0.17.1" level="project" />
   </component>
 </module>
 
