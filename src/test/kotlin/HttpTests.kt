@@ -14,6 +14,12 @@ import org.easyHttp.Headers
 import org.easyHttp.ContentType
 import io.netty.handler.codec.http.Cookie
 import java.util.ArrayList
+import org.easyHttp.Response
+import rx.Observer
+import rx.observers.TestObserver
+import rx.observers.TestSubscriber
+import rx.functions.Action1
+import rx.Subscriber
 
 data class CustomerSimpleClass(val name: String, val email: String)
 
@@ -28,8 +34,23 @@ class HttpTests() {
             assertNotNull(content)
 
         })
+    }
 
+    spec fun getRx() {
 
+        val http = EasyHttp()
+
+        val subscriber = TestSubscriber<Response>()
+
+        http.get("http://httpbin.org/").subscribe(subscriber)
+        subscriber.awaitTerminalEvent()
+
+        val events = subscriber.getOnNextEvents()
+        assertNotNull(events)
+        assertEquals(1, events!!.count())
+        assertNotNull(events[0]?.content)
+
+        subscriber.unsubscribe()
     }
 
     spec fun head_on_existing_resources_returns_necessary_headers() {

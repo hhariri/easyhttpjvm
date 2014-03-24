@@ -30,6 +30,8 @@ import kotlin.Map
 import java.util.ArrayList
 import rx.Observable
 import rx.subjects.Subject
+import rx.subjects.PublishSubject
+import rx.subjects.ReplaySubject
 
 public class EasyHttp(private val enableLogging: Boolean = false,
                       val streamers: List<Streamer> = listOf(FormStreamer(), BodyStreamer()),
@@ -126,11 +128,14 @@ public class EasyHttp(private val enableLogging: Boolean = false,
         executeRequest(url, headers, HttpMethod.GET, callback)
     }
 
-/*
     fun get(url: String, headers: Headers = Headers()): Observable<Response> {
-        val subject = Subject()
+        val subject = ReplaySubject.create<Response>()!!
+        get(url, headers, callback = {
+            subject.onNext(this)
+            subject.onCompleted()
+        })
+        return subject
     }
-*/
 
     fun post(url: String, headers: Headers = Headers(), contents: Any? = null, callback: Response.() -> Unit) {
         executeRequest(url, headers, HttpMethod.POST, callback, contents)
