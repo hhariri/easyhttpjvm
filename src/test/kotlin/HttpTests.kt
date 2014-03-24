@@ -36,22 +36,26 @@ class HttpTests() {
         })
     }
 
+
     spec fun getRx() {
 
         val http = EasyHttp()
 
         val subscriber = TestSubscriber<Response>()
 
-        http.get("http://httpbin.org/").subscribe(subscriber)
-        subscriber.awaitTerminalEvent()
 
+        http.get("http://httpbin.org/").subscribe(subscriber)
+
+        subscriber.awaitTerminalEvent()
         val events = subscriber.getOnNextEvents()
         assertNotNull(events)
         assertEquals(1, events!!.count())
         assertNotNull(events[0]?.content)
 
         subscriber.unsubscribe()
+
     }
+
 
     spec fun head_on_existing_resources_returns_necessary_headers() {
 

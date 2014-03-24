@@ -1,5 +1,4 @@
 buildscript {
-    ext.kotlin_version = '0.7.270'
     project.ext.kotlinVersion = "0.7.270"
 
     version = "0.1-SNAPSHOT"
@@ -12,13 +11,6 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$ext.kotlinVersion"
-        classpath "io.netty:netty-all:4.0.15.Final"
-        classpath "com.netflix.rxjava:rxjava-core:0.16.1"
-        classpath "com.netflix.rxjava:rxjava-kotlin:0.16.1"
-        classpath "joda-time:joda-time:2.3"
-        classpath "com.google.code.gson:gson:2.2.4"
-        classpath "junit:junit:4.11"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -68,7 +60,6 @@ dependencies {
     compile "com.google.code.gson:gson:2.2.4"
     compile "com.netflix.rxjava:rxjava-core:0.17.1"
     testCompile "junit:junit:4.11"
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
 }
 

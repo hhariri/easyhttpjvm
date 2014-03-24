@@ -132,6 +132,7 @@ public class EasyHttp(private val enableLogging: Boolean = false,
 
     fun get(url: String, headers: Headers = Headers()): Observable<Response> {
 
+
         return Observable.create(OnSubscribe<Response>({(s: Subscriber<in Response>?) ->
             get(url, headers, {
                 s?.onNext(this)
