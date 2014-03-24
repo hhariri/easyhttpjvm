@@ -32,6 +32,8 @@ import rx.Observable
 import rx.subjects.Subject
 import rx.subjects.PublishSubject
 import rx.subjects.ReplaySubject
+import rx.Subscriber
+import rx.Observable.OnSubscribe
 
 public class EasyHttp(private val enableLogging: Boolean = false,
                       val streamers: List<Streamer> = listOf(FormStreamer(), BodyStreamer()),
@@ -129,12 +131,13 @@ public class EasyHttp(private val enableLogging: Boolean = false,
     }
 
     fun get(url: String, headers: Headers = Headers()): Observable<Response> {
-        val subject = ReplaySubject.create<Response>()!!
-        get(url, headers, callback = {
-            subject.onNext(this)
-            subject.onCompleted()
-        })
-        return subject
+
+        return Observable.create(OnSubscribe<Response>({(s: Subscriber<in Response>?) ->
+            get(url, headers, {
+                s?.onNext(this)
+                s?.onCompleted()
+            })
+        }))!!
     }
 
     fun post(url: String, headers: Headers = Headers(), contents: Any? = null, callback: Response.() -> Unit) {
