@@ -34,6 +34,9 @@ import rx.subjects.PublishSubject
 import rx.subjects.ReplaySubject
 import rx.Subscriber
 import rx.Observable.OnSubscribe
+import rx.Observable.OnSubscribeFunc
+import java.util.Observer
+import rx.subscriptions.Subscriptions
 
 public class EasyHttp(private val enableLogging: Boolean = false,
                       val streamers: List<Streamer> = listOf(FormStreamer(), BodyStreamer()),
@@ -131,13 +134,33 @@ public class EasyHttp(private val enableLogging: Boolean = false,
     }
 
     fun get(url: String, headers: Headers = Headers()): Observable<Response> {
-
-        return Observable.create(OnSubscribe<Response>({(s: Subscriber<in Response>?) ->
+        return createObservable<Response> {
             get(url, headers, {
-                s?.onNext(this)
-                s?.onCompleted()
+                it.onNext(this)
+                it.onCompleted()
             })
-        }))!!
+        }
+    }
+
+    // We have to use an anonymous class, as it looks like there's a bug in Kotlin
+    // that compiles an OnSubscribe function literal to the wrong underlying type,
+    // causing AbstractMethodError when trying to call it:
+    //
+    // return Observable.create(OnSubscribe<Response> { (it : Subscriber<in Response>?) ->
+    //    get(url, headers, {
+    //        it?.onNext(this)
+    //        it?.onCompleted()
+    //    })
+    // })
+    //
+    // That syntax does work in Java 8, though
+    // http://youtrack.jetbrains.com/issue/KT-4598
+    fun<T> createObservable(onSubscribe : (Subscriber<in T>) -> Unit) : Observable<T> {
+        return Observable.create(object : OnSubscribe<T> {
+            override fun call(s: Subscriber<in T>?) {
+                onSubscribe(s!!)
+            }
+        })!!
     }
 
     fun post(url: String, headers: Headers = Headers(), contents: Any? = null, callback: Response.() -> Unit) {
