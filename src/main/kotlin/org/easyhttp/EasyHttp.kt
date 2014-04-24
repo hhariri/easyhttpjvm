@@ -133,13 +133,39 @@ public class EasyHttp(private val enableLogging: Boolean = false,
     fun get(url: String, headers: Headers = Headers()): Observable<Response> {
 
 
-        return Observable.create(OnSubscribe<Response>({(s: Subscriber<in Response>?) ->
-            get(url, headers, {
-                s?.onNext(this)
-                s?.onCompleted()
-            })
-        }))!!
+         /*   return createObservable<Response> {
+                get(url, headers, {
+                    it.onNext(this)
+                    it.onCompleted()
+                })
+            }*/
+        return Observable.create(object: OnSubscribe<Response> {
+            override fun call(s: Subscriber<in Response>?) {
+                get(url, headers, {
+                    s?.onNext(this)
+                    s?.onCompleted()
+                })
+            }
+        })!!
     }
+
+    fun post(url: String, headers: Headers = Headers(), contents: Any? = null): Observable<Response> {
+        return createObservable<Response> {
+            post(url, headers, contents, {
+                it.onNext(this)
+                it.onCompleted()
+            })
+        }
+    }
+
+    fun<T> createObservable(onSubscribe : (Subscriber<in T>) -> Unit) : Observable<T> {
+                return Observable.create(object : OnSubscribe<T> {
+                        override fun call(s: Subscriber<in T>?) {
+                                onSubscribe(s!!)
+                            }
+                    })!!
+    }
+
 
     fun post(url: String, headers: Headers = Headers(), contents: Any? = null, callback: Response.() -> Unit) {
         executeRequest(url, headers, HttpMethod.POST, callback, contents)
