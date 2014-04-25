@@ -1,0 +1,134 @@
+<root>
+    <item name='rx.schedulers.Schedulers rx.Scheduler threadPoolForIO()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.TestScheduler void advanceTimeBy(long, java.util.concurrent.TimeUnit) 1'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.ExecutorScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;, long, java.util.concurrent.TimeUnit) 2'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+        <annotation name='org.jetbrains.kannotator.runtime.annotations.Propagated'>
+            <val name="value" val="{org.jetbrains.kannotator.controlFlow.builder.analysis.NullabilityKey.class}"/>
+        </annotation>
+    </item>
+    <item name='rx.schedulers.ImmediateScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;, long, java.util.concurrent.TimeUnit) 2'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.ImmediateScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.TestScheduler void advanceTimeTo(long, java.util.concurrent.TimeUnit) 1'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.TrampolineScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;, long, java.util.concurrent.TimeUnit)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.ExecutorScheduler rx.Subscription schedulePeriodically(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;, long, long, java.util.concurrent.TimeUnit) 3'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+        <annotation name='org.jetbrains.kannotator.runtime.annotations.Propagated'>
+            <val name="value" val="{org.jetbrains.kannotator.controlFlow.builder.analysis.NullabilityKey.class}"/>
+        </annotation>
+    </item>
+    <item name='rx.schedulers.TestScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+        <annotation name='org.jetbrains.kannotator.runtime.annotations.Propagated'>
+            <val name="value" val="{org.jetbrains.kannotator.controlFlow.builder.analysis.NullabilityKey.class}"/>
+        </annotation>
+    </item>
+    <item name='rx.schedulers.Schedulers rx.Scheduler executor(java.util.concurrent.Executor)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.TrampolineScheduler rx.schedulers.TrampolineScheduler getInstance()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.ImmediateScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.ExecutorScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.ImmediateScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;, long, java.util.concurrent.TimeUnit)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.TestScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;, long, java.util.concurrent.TimeUnit)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.NewThreadScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;, long, java.util.concurrent.TimeUnit) 2'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+        <annotation name='org.jetbrains.kannotator.runtime.annotations.Propagated'>
+            <val name="value" val="{org.jetbrains.kannotator.controlFlow.builder.analysis.NullabilityKey.class}"/>
+        </annotation>
+    </item>
+    <item name='rx.schedulers.Schedulers rx.Scheduler immediate()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.ExecutorScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;, long, java.util.concurrent.TimeUnit)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.ExecutorScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+        <annotation name='org.jetbrains.kannotator.runtime.annotations.Propagated'>
+            <val name="value" val="{org.jetbrains.kannotator.controlFlow.builder.analysis.NullabilityKey.class}"/>
+        </annotation>
+    </item>
+    <item name='rx.schedulers.TrampolineScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.NewThreadScheduler rx.schedulers.NewThreadScheduler getInstance()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.TestScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.Schedulers rx.Scheduler newThread()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.Schedulers rx.Scheduler threadPoolForComputation()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.NewThreadScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;, long, java.util.concurrent.TimeUnit)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.Schedulers rx.Scheduler computation()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.TrampolineScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;, long, java.util.concurrent.TimeUnit) 2'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.NewThreadScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.Schedulers rx.schedulers.TestScheduler test()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.Schedulers rx.Scheduler io()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.Schedulers rx.Scheduler currentThread()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.NewThreadScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+        <annotation name='org.jetbrains.kannotator.runtime.annotations.Propagated'>
+            <val name="value" val="{org.jetbrains.kannotator.controlFlow.builder.analysis.NullabilityKey.class}"/>
+        </annotation>
+    </item>
+    <item name='rx.schedulers.ImmediateScheduler rx.schedulers.ImmediateScheduler getInstance()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.Schedulers rx.Scheduler trampoline()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.TestScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;, long, java.util.concurrent.TimeUnit) 2'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.schedulers.TrampolineScheduler rx.Subscription schedule(rx.functions.Action1&lt;rx.Scheduler.Inner&gt;) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+        <annotation name='org.jetbrains.kannotator.runtime.annotations.Propagated'>
+            <val name="value" val="{org.jetbrains.kannotator.controlFlow.builder.analysis.NullabilityKey.class}"/>
+        </annotation>
+    </item>
+    <item name='rx.schedulers.Schedulers rx.Scheduler executor(java.util.concurrent.ScheduledExecutorService)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+</root>

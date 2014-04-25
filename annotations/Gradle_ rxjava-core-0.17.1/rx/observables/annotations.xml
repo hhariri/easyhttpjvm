@@ -1,0 +1,32 @@
+<root>
+    <item name='rx.observables.BlockingObservable java.lang.Iterable&lt;T&gt; mostRecent(T)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.observables.BlockingObservable java.util.Iterator&lt;T&gt; getIterator()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.observables.BlockingObservable java.lang.Iterable&lt;T&gt; latest()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.observables.BlockingObservable java.lang.Iterable&lt;T&gt; next()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.observables.ConnectableObservable rx.Observable&lt;T&gt; refCount()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.observables.BlockingObservable rx.observables.BlockingObservable&lt;T&gt; from(rx.Observable&lt;? extends T&gt;)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.observables.BlockingObservable java.util.concurrent.Future&lt;T&gt; toFuture()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.observables.BlockingObservable java.lang.Iterable&lt;T&gt; toIterable()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.observables.ConnectableObservable rx.Subscription connect()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+        <annotation name='org.jetbrains.kannotator.runtime.annotations.Propagated'>
+            <val name="value" val="{org.jetbrains.kannotator.controlFlow.builder.analysis.NullabilityKey.class}"/>
+        </annotation>
+    </item>
+</root>

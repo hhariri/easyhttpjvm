@@ -1,0 +1,59 @@
+<root>
+    <item name='rx.joins.Plan0 rx.joins.JoinObserver1&lt;T&gt; createObserver(java.util.Map&lt;java.lang.Object,rx.joins.JoinObserver&gt;, rx.Observable&lt;T&gt;, rx.functions.Action1&lt;java.lang.Throwable&gt;) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.joins.Pattern2 rx.joins.Pattern3&lt;T1,T2,T3&gt; and(rx.Observable&lt;T3&gt;)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.joins.Plan2 rx.joins.ActivePlan0 activate(java.util.Map&lt;java.lang.Object,rx.joins.JoinObserver&gt;, rx.Observer&lt;R&gt;, rx.functions.Action1&lt;rx.joins.ActivePlan0&gt;)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.joins.JoinObserver1 void onNext(java.lang.Object) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+        <annotation name='org.jetbrains.kannotator.runtime.annotations.Propagated'>
+            <val name="value" val="{org.jetbrains.kannotator.controlFlow.builder.analysis.NullabilityKey.class}"/>
+        </annotation>
+    </item>
+    <item name='rx.joins.Pattern2 rx.joins.Plan0&lt;R&gt; then(rx.functions.Func2&lt;T1,T2,R&gt;)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.joins.Pattern3 rx.joins.Plan0&lt;R&gt; then(rx.functions.Func3&lt;T1,T2,T3,R&gt;)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.joins.Plan1 rx.joins.ActivePlan0 activate(java.util.Map&lt;java.lang.Object,rx.joins.JoinObserver&gt;, rx.Observer&lt;R&gt;, rx.functions.Action1&lt;rx.joins.ActivePlan0&gt;)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.joins.Pattern1 rx.joins.Plan0&lt;R&gt; then(rx.functions.Func1&lt;T1,R&gt;)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.joins.Plan3 rx.joins.ActivePlan0 activate(java.util.Map&lt;java.lang.Object,rx.joins.JoinObserver&gt;, rx.Observer&lt;R&gt;, rx.functions.Action1&lt;rx.joins.ActivePlan0&gt;)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.joins.Plan0 rx.joins.JoinObserver1&lt;T&gt; createObserver(java.util.Map&lt;java.lang.Object,rx.joins.JoinObserver&gt;, rx.Observable&lt;T&gt;, rx.functions.Action1&lt;java.lang.Throwable&gt;)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.joins.Pattern3 rx.joins.Plan0&lt;R&gt; then(rx.functions.Func3&lt;T1,T2,T3,R&gt;) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.joins.Plan0 rx.joins.ActivePlan0 activate(java.util.Map&lt;java.lang.Object,rx.joins.JoinObserver&gt;, rx.Observer&lt;R&gt;, rx.functions.Action1&lt;rx.joins.ActivePlan0&gt;)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+        <annotation name='org.jetbrains.kannotator.runtime.annotations.Propagated'>
+            <val name="value" val="{org.jetbrains.kannotator.controlFlow.builder.analysis.NullabilityKey.class}"/>
+        </annotation>
+    </item>
+    <item name='rx.joins.ActivePlan0 joinObservers'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.joins.Pattern2 rx.joins.Pattern3&lt;T1,T2,T3&gt; and(rx.Observable&lt;T3&gt;) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.joins.Pattern1 rx.joins.Plan0&lt;R&gt; then(rx.functions.Func1&lt;T1,R&gt;) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.joins.Pattern2 rx.joins.Plan0&lt;R&gt; then(rx.functions.Func2&lt;T1,T2,R&gt;) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='rx.joins.JoinObserver1 java.util.Queue&lt;rx.Notification&lt;T&gt;&gt; queue()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+</root>
