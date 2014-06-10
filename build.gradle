@@ -1,5 +1,4 @@
 buildscript {
-    project.ext.kotlinVersion = "0.7.270"
 
     version = "0.1-SNAPSHOT"
 
@@ -10,7 +9,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$ext.kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:0.1-SNAPSHOT"
     }
 }
 
@@ -19,7 +18,7 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 repositories {
-    mavenLocal()
+
     mavenCentral()
     maven {
         url 'http://oss.sonatype.org/content/repositories/snapshots'
@@ -54,7 +53,7 @@ publishing {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$ext.kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:0.1-SNAPSHOT"
     compile "io.netty:netty-all:4.0.15.Final"
     compile "joda-time:joda-time:2.3"
     compile "com.google.code.gson:gson:2.2.4"
