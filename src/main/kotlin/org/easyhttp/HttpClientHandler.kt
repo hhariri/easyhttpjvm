@@ -15,7 +15,7 @@ import org.joda.time.format.DateTimeFormat
 import org.joda.time.DateTime
 
 
-class HttpClientHandler(private val callback: (Response) -> Unit, private val deserializers: List<ContentDecoder>): SimpleChannelInboundHandler<HttpObject>() {
+class HttpClientHandler(private val callback: Response.() -> Unit, private val deserializers: List<ContentDecoder>): SimpleChannelInboundHandler<HttpObject>() {
 
     var contentValue = ""
     var age: String? = null
@@ -45,7 +45,7 @@ class HttpClientHandler(private val callback: (Response) -> Unit, private val de
 
     fun getHeader(headers: HttpHeaders?, name: String): String? {
         if (headers != null) {
-            return headers[name]
+            return headers.get(name)
         }
         return null
     }
@@ -77,6 +77,7 @@ class HttpClientHandler(private val callback: (Response) -> Unit, private val de
             val message = content.content()!!.toString(CharsetUtil.UTF_8)!!
             contentValue += message
             if (content is LastHttpContent) {
+                val handlerExtension : Response.() -> Unit = callback
                 Response(
                         deserializers,
                         statusCode = statusCode,
@@ -92,8 +93,7 @@ class HttpClientHandler(private val callback: (Response) -> Unit, private val de
                         connection = connection,
                         date = date,
                         server = server
-                )
-                callback(Response)
+                ).handlerExtension()
             }
         }
     }

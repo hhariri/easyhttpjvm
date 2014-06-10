@@ -48,7 +48,7 @@ public class EasyHttp(private val enableLogging: Boolean = false,
 
 
 
-    private fun setupBootStrap(eventLoopGroup: NioEventLoopGroup, callback: (Response) -> Unit): Bootstrap {
+    private fun setupBootStrap(eventLoopGroup: NioEventLoopGroup, callback: Response.() -> Unit): Bootstrap {
         val bootStrap = Bootstrap()
         bootStrap.group(eventLoopGroup)
                 ?.channel(javaClass<NioSocketChannel>())
@@ -70,7 +70,7 @@ public class EasyHttp(private val enableLogging: Boolean = false,
         return nettyCookies
     }
 
-    fun executeRequest(url: String, headers: Headers, method: HttpMethod, callback: (Response) -> Unit, contents: Any? = null) {
+    fun executeRequest(url: String, headers: Headers, method: HttpMethod, callback: Response.() -> Unit, contents: Any? = null) {
         val eventLoopGroup = NioEventLoopGroup()
         try {
             val bootstrap = setupBootStrap(eventLoopGroup, callback)
@@ -126,15 +126,10 @@ public class EasyHttp(private val enableLogging: Boolean = false,
         }
     }
 
-    fun get(url: String, headers: Headers = Headers(), callback: (Response) -> Unit) {
+    fun get(url: String, headers: Headers = Headers(), callback: Response.() -> Unit) {
         executeRequest(url, headers, HttpMethod.GET, callback)
     }
 
-/*    fun get(url: String, headers: Headers = Headers()): Response {
-        val responseHandler: Response.() -> Unit = {}
-        executeRequest(url, headers, HttpMethod.GET, responseHandler)
-        return responseHandler.this
-    }*/
     fun get(url: String, headers: Headers = Headers()): Observable<Response> {
 
 
@@ -173,9 +168,8 @@ public class EasyHttp(private val enableLogging: Boolean = false,
 
 
     fun post(url: String, headers: Headers = Headers(), contents: Any? = null, callback: Response.() -> Unit) {
-        executeRequest(url, headers, HttpMethod.POST, , contents)
+        executeRequest(url, headers, HttpMethod.POST, callback, contents)
     }
-
 
     fun head(url: String, headers: Headers = Headers(), callback: Response.() -> Unit) {
         executeRequest(url, headers, HttpMethod.HEAD, callback)
