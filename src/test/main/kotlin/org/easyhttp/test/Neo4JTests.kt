@@ -5,6 +5,7 @@ import org.easyHttp.Headers
 import org.easyHttp.ContentType
 import java.util.ArrayList
 import org.joda.time.DateTime
+import org.easyHttp.StatusCode
 
 public class CypherStatement(val serverUrl: String, val transactionTimeout: Int = 60) {
 
@@ -57,17 +58,28 @@ data class Statement(val statement: String, val parameters: Params)
 data class Wrapper(val statements: ArrayList<Statement>)
 
 data class Customer(val name: String, val dateTime: Long)
+
+
+data class Neo4JConstraint(val label: String, val property: String)
+
+data class Neo4JConstraintProperty(val property_keys: String)
+
+data class Neo4JConstraintCause(val message: String, val exception: String, val stacktrace: ArrayList<String>, val fullname: String)
+
+data class Neo4JConstraintResult(val message: String, val exception: String, val stacktrace: ArrayList<String>, val fullname: String, val cause: Neo4JConstraintCause)
+
 fun main(args: Array<String>) {
 
     val http = EasyHttp()
+        val props = Neo4JConstraintProperty("Credentials")
+        val observable = http.post("http://localhost:7474/db/data/schema/constraint/email/uniqueness/", Headers(contentType = ContentType.Application.Json.toString()), props).toBlockingObservable()
+        observable?.forEach {
+            if (it?.statusCode != StatusCode.OK) {
+                val result = it?.content(javaClass<Neo4JConstraintResult>())!!
+                println(result)
+            }
+        }
 
-    val data = Customer("JoeTesting", DateTime().getMillis())
-    val wrapper = Wrapper(arrayListOf(Statement("CREATE (n:Course {props}) RETURN n", Params(data))))
-
-    http.post("http://localhost:7474/db/data/transaction/commit", Headers(accept = ContentType.Application.Json.toString(), contentType = ContentType.Application.Json.toString()), wrapper, {
-        println(statusCode)
-        println(content)
-    });
 
 }
 
