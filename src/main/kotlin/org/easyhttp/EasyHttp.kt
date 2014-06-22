@@ -126,19 +126,19 @@ public class EasyHttp(private val enableLogging: Boolean = false,
         }
     }
 
+    fun<T> createObservable(onSubscribe : (Subscriber<in T>) -> Unit) : Observable<T> {
+        return Observable.create(object : OnSubscribe<T> {
+            override fun call(s: Subscriber<in T>?) {
+                onSubscribe(s!!)
+            }
+        })!!
+    }
+
     fun get(url: String, headers: Headers = Headers(), callback: Response.() -> Unit) {
         executeRequest(url, headers, HttpMethod.GET, callback)
     }
 
     fun get(url: String, headers: Headers = Headers()): Observable<Response> {
-
-
-         /*   return createObservable<Response> {
-                get(url, headers, {
-                    it.onNext(this)
-                    it.onCompleted()
-                })
-            }*/
         return Observable.create(object: OnSubscribe<Response> {
             override fun call(s: Subscriber<in Response>?) {
                 get(url, headers, {
@@ -147,6 +147,10 @@ public class EasyHttp(private val enableLogging: Boolean = false,
                 })
             }
         })!!
+    }
+
+    fun post(url: String, headers: Headers = Headers(), contents: Any? = null, callback: Response.() -> Unit) {
+        executeRequest(url, headers, HttpMethod.POST, callback, contents)
     }
 
     fun post(url: String, headers: Headers = Headers(), contents: Any? = null): Observable<Response> {
@@ -158,35 +162,56 @@ public class EasyHttp(private val enableLogging: Boolean = false,
         }
     }
 
-    fun<T> createObservable(onSubscribe : (Subscriber<in T>) -> Unit) : Observable<T> {
-                return Observable.create(object : OnSubscribe<T> {
-                        override fun call(s: Subscriber<in T>?) {
-                                onSubscribe(s!!)
-                            }
-                    })!!
-    }
-
-
-    fun post(url: String, headers: Headers = Headers(), contents: Any? = null, callback: Response.() -> Unit) {
-        executeRequest(url, headers, HttpMethod.POST, callback, contents)
-    }
-
     fun head(url: String, headers: Headers = Headers(), callback: Response.() -> Unit) {
         executeRequest(url, headers, HttpMethod.HEAD, callback)
+    }
+
+    fun head(url: String, headers: Headers = Headers()): Observable<Response> {
+        return createObservable {
+            head(url, headers, {
+                it.onNext(this)
+                it.onCompleted()
+            })
+        }
     }
 
     fun options(url: String, headers: Headers = Headers(), callback: Response.() -> Unit) {
         executeRequest(url, headers, HttpMethod.OPTIONS, callback)
     }
 
+    fun options(url: String, headers: Headers = Headers()): Observable<Response> {
+        return createObservable {
+            options(url, headers, {
+                it.onNext(this)
+                it.onCompleted()
+            })
+        }
+    }
     fun put(url: String, headers: Headers = Headers(), contents: Any? = null, callback: Response.() -> Unit) {
         executeRequest(url, headers, HttpMethod.PUT, callback, contents)
+    }
+
+    fun put(url: String, headers: Headers = Headers(), contents: Any? = null): Observable<Response> {
+        return createObservable<Response> {
+            put(url, headers, contents, {
+                it.onNext(this)
+                it.onCompleted()
+            })
+        }
     }
 
     fun delete(url: String, headers: Headers = Headers(), callback: Response.() -> Unit) {
         executeRequest(url, headers, HttpMethod.DELETE, callback)
     }
 
+    fun delete(url: String, headers: Headers = Headers()): Observable<Response> {
+        return createObservable<Response> {
+            delete(url, headers, {
+                it.onNext(this)
+                it.onCompleted()
+            })
+        }
+    }
     fun patch(url: String, headers: Headers = Headers(), callback: Response.() -> Unit) {
         executeRequest(url, headers, HttpMethod.PATCH, callback)
     }

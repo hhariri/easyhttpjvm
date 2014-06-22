@@ -66,7 +66,7 @@ class HttpTests() {
             assertEquals(StatusCode.OK.toString(), statusText)
             assertEquals("*", accessControlAllowOrigin)
             assertEquals("text/html; charset=utf-8", contentType.toString())
-            assertEquals("gunicorn/0.17.4", server)
+            assertEquals("gunicorn/18.0", server)
             assertEquals(7700, contentLength)
             assertEquals("Close", connection)
             val currentDateTime = DateTime.now()
@@ -101,7 +101,7 @@ class HttpTests() {
 
                 callback = {
                     assertEquals(StatusCode.OK, statusCode)
-                    assertEquals(592, contentLength)
+                    assertEquals(611, contentLength)
                 }
         )
     }
@@ -115,7 +115,7 @@ class HttpTests() {
                 headers = Headers(contentType = "application/x-www-form-urlencoded"),
                 callback = {
                 assertEquals(StatusCode.OK, statusCode)
-                    assertEquals(586, contentLength)
+                    assertEquals(605, contentLength)
               }
 
         )
@@ -131,7 +131,7 @@ class HttpTests() {
 
                 callback = {
                     assertEquals(StatusCode.OK, statusCode)
-                    assertEquals(613, contentLength)
+                    assertEquals(632, contentLength)
                 }
         )
     }
