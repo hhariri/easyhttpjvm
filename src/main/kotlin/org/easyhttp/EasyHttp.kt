@@ -104,7 +104,9 @@ public class EasyHttp(private val enableLogging: Boolean = false,
             }
 
             val requestHeaders = request.headers()!!
-            requestHeaders.set(HttpHeaders.Names.CONTENT_TYPE, headers.contentType)
+            if (headers.contentType != ""){
+                requestHeaders.set(HttpHeaders.Names.CONTENT_TYPE, headers.contentType)
+            }
             if (contentLength > 0) {
                 requestHeaders.set(HttpHeaders.Names.CONTENT_LENGTH, contentLength)
             }

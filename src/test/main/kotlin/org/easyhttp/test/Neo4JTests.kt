@@ -71,15 +71,21 @@ data class Neo4JConstraintResult(val message: String, val exception: String, val
 fun main(args: Array<String>) {
 
     val http = EasyHttp()
-        val props = Neo4JConstraintProperty("Credentials")
-        val observable = http.post("http://localhost:7474/db/data/schema/constraint/email/uniqueness/", Headers(contentType = ContentType.Application.Json.toString()), props).toBlockingObservable()
-        observable?.forEach {
-            if (it?.statusCode != StatusCode.OK) {
-                val result = it?.content(javaClass<Neo4JConstraintResult>())!!
-                println(result)
-            }
+    val props = Neo4JConstraintProperty("Credentials")
+    val observable = http.post("http://localhost:7474/db/data/schema/constraint/email/uniqueness/", Headers(contentType = ContentType.Application.Json.toString()), props).toBlockingObservable()
+    observable?.forEach {
+        if (it?.statusCode != StatusCode.OK) {
+            val result = it?.content(javaClass<Neo4JConstraintResult>())!!
+            println(result)
         }
+    }
 
+
+    val observable1 = http.delete("http://localhost:7474/db/data/schema/constraint/Credentials/uniqueness/email").toBlockingObservable()
+    observable1?.forEach {
+
+        println(it?.content)
+    }
 
 }
 
