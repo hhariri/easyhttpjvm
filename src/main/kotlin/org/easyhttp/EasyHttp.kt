@@ -80,9 +80,10 @@ public class EasyHttp(private val enableLogging: Boolean = false,
             if (port == -1) {
                 port = 80;
             }
-            val rawPath = URI(url).getRawPath()
+            val rawPath = "${URI(url).getRawPath()}?${URI(url).getRawQuery()}"
             var request: HttpRequest
             var contentLength = 0
+
 
             if ((method == HttpMethod.POST || method == HttpMethod.PATCH) && contents != null) {
                 val encoder = encoders.find { it.canEncode(headers.contentType)}
@@ -110,6 +111,7 @@ public class EasyHttp(private val enableLogging: Boolean = false,
             if (contentLength > 0) {
                 requestHeaders.set(HttpHeaders.Names.CONTENT_LENGTH, contentLength)
             }
+
             requestHeaders.set(HttpHeaders.Names.HOST, host)
             requestHeaders.set(HttpHeaders.Names.ACCEPT, headers.accept)
             requestHeaders.set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.CLOSE)

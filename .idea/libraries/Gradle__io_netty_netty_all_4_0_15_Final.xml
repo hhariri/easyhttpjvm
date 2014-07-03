@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: netty-all-4.0.15.Final">
+  <library name="Gradle: io.netty:netty-all:4.0.15.Final">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-all/4.0.15.Final/85cad5eb4fc8ae2ecc990dc7c411771a091ded5/netty-all-4.0.15.Final.jar!/" />
     </CLASSES>
