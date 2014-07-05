@@ -3,6 +3,9 @@ package org.easyHttp
 import java.util.Date
 import java.util.SortedMap
 import org.joda.time.DateTime
+import com.google.gson.JsonElement
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 
 
 public class Response(
@@ -40,7 +43,17 @@ public class Response(
         throw Exception("Cannot find correct deserializer for given content type")
     }
 
+    fun contentAsJson(path: String): JsonElement {
+        val gson = Gson()
+        val output = gson.fromJson(content , javaClass<JsonObject>())
+        return output?.json(path)!!
+    }
 
+    fun contentAsJsonObject(): JsonObject {
+        val gson = Gson()
+        val output = gson.fromJson(content, javaClass<JsonObject>())
+        return output!!
+    }
 
 }
 

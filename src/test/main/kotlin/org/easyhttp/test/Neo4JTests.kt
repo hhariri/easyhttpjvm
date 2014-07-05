@@ -6,6 +6,11 @@ import org.easyHttp.ContentType
 import java.util.ArrayList
 import org.joda.time.DateTime
 import org.easyHttp.StatusCode
+import com.google.gson.reflect.TypeToken
+import com.google.gson.Gson
+import com.google.gson.internal.LinkedTreeMap
+import com.google.gson.JsonObject
+import com.google.gson.JsonElement
 
 public class CypherStatement(val serverUrl: String, val transactionTimeout: Int = 60) {
 
@@ -71,7 +76,7 @@ data class Neo4JConstraintResult(val message: String, val exception: String, val
 fun main(args: Array<String>) {
 
     val http = EasyHttp()
-    val props = Neo4JConstraintProperty("Credentials")
+/*    val props = Neo4JConstraintProperty("Credentials")
     val observable = http.post("http://localhost:7474/db/data/schema/constraint/email/uniqueness/", Headers(contentType = ContentType.Application.Json.toString()), props).toBlockingObservable()
     observable?.forEach {
         if (it?.statusCode != StatusCode.OK) {
@@ -85,8 +90,13 @@ fun main(args: Array<String>) {
     observable1?.forEach {
 
         println(it?.content)
-    }
+    }*/
+
+
+
 
 }
+
+
 
 
