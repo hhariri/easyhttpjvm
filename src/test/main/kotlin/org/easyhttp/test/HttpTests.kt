@@ -20,11 +20,12 @@ import rx.observers.TestObserver
 import rx.observers.TestSubscriber
 import rx.functions.Action1
 import rx.Subscriber
+import org.easyHttp.json
 
 data class CustomerSimpleClass(val name: String, val email: String)
 
 
-class HttpTests() {
+public class HttpTests() {
 
     spec fun get_on_existing_resources_returns_resource() {
 
@@ -77,7 +78,7 @@ class HttpTests() {
         })
     }
 
-    spec fun on_get_requesting_content_as_json_should_return_deserialized_json() {
+    spec fun on_get_requesting_static_content_as_json_should_return_deserialized_json() {
 
         val http = EasyHttp()
 
@@ -86,6 +87,20 @@ class HttpTests() {
 
             assertEquals("joe", customer.name)
             assertEquals("joe@gmail.com", customer.email)
+
+        })
+
+    }
+    spec fun on_get_requesting_content_asJson_should_return_deserialized_json() {
+
+        val http = EasyHttp()
+
+        http.get("http://echo.jsontest.com/name/joe/email/joe@gmail.com", callback = {
+
+
+            assertEquals("joe", contentAsJsonObject().json("customer.name"))
+            assertEquals("joe", contentAsJson("customer.name"))
+            assertEquals("joe@gmail.com", contentAsJson("customer.email"))
 
         })
 
@@ -101,7 +116,7 @@ class HttpTests() {
 
                 callback = {
                     assertEquals(StatusCode.OK, statusCode)
-                    assertEquals(612, contentLength)
+                    assertEquals(635, contentLength)
                 }
         )
     }
@@ -115,7 +130,7 @@ class HttpTests() {
                 headers = Headers(contentType = "application/x-www-form-urlencoded"),
                 callback = {
                 assertEquals(StatusCode.OK, statusCode)
-                    assertEquals(606, contentLength)
+                    assertEquals(629, contentLength)
               }
 
         )
@@ -131,7 +146,7 @@ class HttpTests() {
 
                 callback = {
                     assertEquals(StatusCode.OK, statusCode)
-                    assertEquals(633, contentLength)
+                    assertEquals(656, contentLength)
                 }
         )
     }
