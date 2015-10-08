@@ -2,7 +2,8 @@
 
 A port of [EasyHttp](http://github.com/hhariri/EasyHttp) for the JVM based on Netty.
 
-**WARNING**: Work in progress.
+**WARNING**: I'm no longer working on this library as there are great Http libraries on the JVM already such as OkHttp which have a nice interface. This repository is only maintained for historical reasons since I use it in some projects which haven't been ported over yet.
+
 
 ## Usage
 
